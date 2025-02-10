@@ -1,21 +1,87 @@
-The project is a spin on the original game of life created by the British mathematician John H. Conway wherein we have a total of 4 varied lifeforms present on a grid that is populated randomly. These lifeforms are made to live over several generations defined by us and simulate their behavior over time for us to draw conclusions from. The following are the 4 life forms that take part in the simulation:
+# Extended Cellular Simulation: A Game of Life Variant
 
-MYCOPLASMA: This life form has a 25% probability of being alive when populated and is orange colored on the simulation grid. It is immune to diseases and only lives on to the next generation if it has exactly 2 or 3 live neighbors. If a dead mycoplasma cell is surrounded by exactly 3 live neighbors, then it comes alive.
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Technical Details](#technical-details)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running the Simulation](#running-the-simulation)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
 
-COLOR CELL: This life form has a 15% probability of being alive when populated and is Salmon Pink colored on the simulation grid. It requires exactly either 1 or 5 live cells around it to move on to the next generation. It changes its color to Slate Blue on every even generation while retaining Salmon Pink color on each of its odd generations. When diseased though, the cells behave in a slightly different manner, as in the require exactly either 2 or 6 live cells around to stay alive and instead of changing their color to Slate Blue on even generations it changes it to Lime Green. It requires exactly 5 healthy non infected alive cells to cure itself from the disease. A dead color cell requires 3 or more live cells to come back to life.
+## Overview
+This project is an innovative spin on Conway's classic Game of Life. It simulates a dynamic ecosystem where four distinct cellular life forms compete, interact, and evolve on a grid over multiple generations. Each life form possesses unique behaviors, survival strategies, and interactions, making the simulation both unpredictable and engaging.
 
-STAPHYLLOCOCUS: This life form has a 10% probability of being alive when populated and is Aqua Marine Green colored on the simulation grid. It has its behavior change overtime depending on the current generation the simulation is in currently. In earlier generations it has easier requirements to live onto the next generations but as generations go by these requirements increase, for example when it’s in generations less then 20 it requires either 2 or more same type alive neighbors or more than 3 live neighbors of any kind to live on but after 95 generations this changes to requiring either 6 or more same type neighbors or more than 7 live neighbors of any kind. This change isn’t instant, it occurs overtime changing every 25 or so generations. While diseased its behavior changes as it is difficult for it to move to the next generations in the initial generations, but it gets easier for it to live on in a diseased state as generations pass. As generations pass its more difficult for the cell to cure too. It also continuously makes sure to control its population by checking for overcrowding. Every 10 generations after 20 generations its checks if there are 4 or more of same type neighbors the cell dies. Each dead cell of it can come alive if it either has exactly 8 dead cells around it or 3 or more live cells and 2 or more dead cells neighboring it.
+## Features
+- **Diverse Life Forms:**
+  - **Mycoplasma:** Starts with a 25% probability of being alive; immune to diseases; survives with exactly 2 or 3 live neighbors; reproduction by having exactly 3 live neighbors.
+  - **Color Cell:** Begins with a 15% probability; alternates colors between generations (Salmon Pink on odd, Slate Blue on even) under normal conditions, and shifts to Lime Green when diseased; has specific survival and curing mechanisms based on neighbor configuration.
+  - **Staphylococcus:** Initiates at a 10% probability; its survival rules adapt over time, becoming more stringent as generations progress; controls population through overcrowding checks and adapts behavior when diseased.
+  - **Random Cell:** Exhibits non-deterministic behavior with various probabilities influencing survival, color change, and disease infection.
+- **Advanced Disease Mechanics:** Implements a disease system where cells (except Mycoplasma) can get infected, mutate (changing color to Black), and potentially cure themselves under specific neighbor conditions.
+- **Symbiosis:** Mycoplasma and Staphylococcus engage in a mutualistic relationship, where Mycoplasma cures infected Staphylococcus cells while Staphylococcus aids in reviving dead Mycoplasma cells.
+- **Graphical User Interface (GUI):** Provides a visual simulation with a grid representing cell states, along with a "Show Chart" feature that displays pre- and post-simulation population statistics via pie charts.
 
-RANDOM CELL: This life form has a 30% probability of being alive when populated and is Sky Blue colored on the simulation grid. This life form is nondeterministic in nature and has almost all its rule set based on chance. There is a 75% chance that the cell lives on to the next generation if it has 2 or more live neighbors and moreover there is a 5% chance that it changes its color to a random color when moving to the next generation. There is also a 20% chance it gets infected with disease if in contact with a diseased cell. When diseased it has a 35% chance of staying alive if it has 4 or more live neighbors and loses its ability to change colors randomly. It has a 20% chance to cure itself if it’s in contact with exactly 3 alive and healthy neighbors. A dead cell has a 50% chance it can come alive if it has more than 2 live neighbors.
+## Technical Details
+- **Language & Tools:**
+  - Developed in Java and packaged as a runnable JAR (`GameofLifeFinalCode.jar`).
+  - Utilizes Java's GUI libraries for simulation display.
+- **Core Components:**
+  - `Simulator.java`: Drives the simulation cycle by managing generations.
+  - `SimulatorView.java`: Renders the simulation grid and handles user interactions.
+  - `Field.java` & `FieldCanvas.java`: Define and display the simulation grid.
+  - `FieldStats.java` & `StatChart.java`: Collect and present cell population statistics.
+  - `Cell.java` along with subclasses (`Mycoplasma.java`, `ColorCell.java`, `Staphylococcus.java`, `RandCell.java`/`Randomizer.java`): Implement the rules and behaviors for each cell type.
+  - `Location.java`: Manages cell positioning within the grid.
 
-The following is the account of how we accomplished each of the challenge tasks:
+## Getting Started
 
-IMPLEMENTING NONDETERMINISTIC CELLS: accomplish this task, we created the Random Cell whose functionality and rule set has been described above. Each rule that the Random Cell had in its rule set was implemented only after passing through a random percentage checker.
+### Prerequisites
+- Java Development Kit (JDK) 8 or higher
+- Ensure your Java environment variables are correctly configured
 
-DISEASE: To implement a disease system, we have given each cell a Boolean disease attribute that reflects if it is diseased or not. In the Cell class itself we added the method getDiseaseState() that returns whether the cell is diseased or not, infect(Boolean bool) that can change the disease status of the cell depending on whether you want it alive or dead and finally a mutate() method that changes the color of the cell to Black if its diseased. Every cell other than mycoplasma can be infected. Initially while populating the grid there is a 1% chance the cell can be diseased. Every cell gets infected if it is in contact with at least 1 infected cell. Every time a cell is infected with a disease it mutates and has some changes in its rule set. Each cell has different rules for how a dead cell of its kind comes back to life, but it always has a 35% chance that if a dead cell does come back to life and if it was diseased, it will be cured. Curing basically changes the diseased state to false and gives back the original color of the cell back to it.
+### Installation
+1. Clone the repository:
+   ```sh
+   git clone <repository-url>
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd Cell-Simulation-Project
+   ```
+3. Build the project using your preferred IDE or compile via command line. Alternatively, you may use the provided JAR file.
 
-SYMBIOSIS: In the symbiosis task, we chose to implement a mutualistic relationship between Mycoplasma and Staphylococcus cells. This mutualism entails Mycoplasma cells curing infected Staphylococcus cells upon contact, while Staphylococcus cells reciprocate by reviving any dead Mycoplasma cells within the ecosystem. To achieve this, we introduced an "Interact" function within the cell class, which first checks if the cell is a Mycoplasma instance and, if alive, proceeds to cure the Staphylococcus cell. Subsequently, the function checks if the cell is a Staphylococcus instance, then identifies and revives any nearby deceased Mycoplasma cells. Necessary adjustments were made within both cell classes to accommodate these interactions seamlessly. This implementation not only adds realism and complexity to the simulation but also underscores the interdependence and mutual benefits that exist within biological systems.
+### Running the Simulation
+Execute the simulation with the following command:
+```sh
+java -jar GameofLifeFinalCode.jar
+```
+- The simulation window will display the evolving grid.
+- Click the "Show Chart" button to view a comparative pie chart of cell populations before and after the simulation run.
 
-POPULATION CHANGING BAR GRAPH: In the final base task, we implemented a feature where a button is added to the window, allowing users to view statistics of the cell population before and after running the generation cycle. This button, named "Show Chart," triggers the display of population statistics in the form of pie charts. Extensive testing was conducted to address various edge cases, such as pressing the "Show Chart" button multiple times or pressing it during the simulation.
-To accomplish this, we introduced a new window called StatChart, which contains the necessary code for creating the window and specifying the pie chart properties. Additionally, within the FieldStat class, we implemented a method to retrieve the population of cells after the generation simulation. This method returns a list containing the population data, which is then utilized in the SimulatorView class.
-Upon triggering the "Show Chart" button, the SimulatorView class calls the StatChart window, which displays two pie charts: one representing the cell population statistics before the simulation and the other after. This implementation not only enhances the user experience by providing visual insights into the simulation results but also ensures smooth functionality by handling various scenarios effectively. We have made sure that the display window for the pie chart frame has been properly aligned to the right of the simulation window.
+## Contributing
+Contributions are welcome! Follow these steps to contribute:
+1. Fork the repository.
+2. Create your feature branch:
+   ```sh
+   git checkout -b feature/YourFeature
+   ```
+3. Commit your changes:
+   ```sh
+   git commit -m "Your descriptive commit message"
+   ```
+4. Push to the branch:
+   ```sh
+   git push origin feature/YourFeature
+   ```
+5. Open a pull request describing your changes.
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+- Inspired by Conway's Game of Life and cellular automata research.
+- Thanks to all contributors and the open-source community for their support.
