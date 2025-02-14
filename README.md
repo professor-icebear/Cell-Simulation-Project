@@ -46,7 +46,7 @@ This project is an innovative spin on Conway's classic Game of Life. It simulate
 ### Installation
 1. Clone the repository:
    ```sh
-   git clone <repository-url>
+   git clone https://github.com/professor-icebear/Cell-Simulation-Project.git
    ```
 2. Navigate to the project directory:
    ```sh
